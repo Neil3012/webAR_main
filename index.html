@@ -3,14 +3,14 @@
   <head>
     <title>Digital Rhombus Studios PVT LTD</title>
     <meta charset="utf-8">
-    <meta name="description" content="<model-viewer> template">
+    <meta name="description" content="3D Model Viewer with AR and Animation">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <!-- <model-viewer> HTML element -->
-    <model-viewer id="model-viewer" src="Xtree.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" shadow-intensity="1">
+    <model-viewer id="model-viewer" src="Xtree.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" shadow-intensity="1" autoplay>
       <div class="progress-bar hide" slot="progress-bar">
         <div class="update-bar"></div>
       </div>
@@ -20,31 +20,6 @@
       <div id="ar-prompt">
         <img src="ar_hand_prompt.png">
       </div>
-
-      <!-- <div id="content">
-        <div id="mySidenav" class="sidenav" >
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-          <a class="ar-object" id="1" href="#">item_1</a>
-          <a class="ar-object" id="2" href="#">item_2</a>
-          <a class="ar-object" id="3" href="#">item_3</a>
-          <a class="ar-object" id="4" href="#">item_4</a>
-        </div>
-  
-        <div id="container" style="position: fixed;"></div>
-  
-        <span style="font-size:30px;cursor:pointer;position: absolute;" onclick="openNav()">&#9776; open</span>
-  
-        <button type="button" id="place-button">PLACE</button>
-      </div> -->
-
-      <!-- Overlay Buttons -->
-      <!-- <div class="ar-buttons" id="ar-buttons" style="display: none;">
-        <label class="switch">
-          <input type="checkbox" id="toggle-animation">
-          <span class="slider round"></span>
-        </label>
-        <button id="change-color">Change Color</button>
-      </div> -->
     </model-viewer>
     
     <script src="script.js"></script>
@@ -52,33 +27,63 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <script>
-
       const modelViewer = document.querySelector('model-viewer');
 
+      // Event listener for when the model is fully loaded
+      modelViewer.addEventListener('load', () => {
+        console.log('Model Loaded');
+
+        // Check for available animations
+        const animations = modelViewer.querySelector('model-viewer').model.animations;
+        
+        if (animations.length === 0) {
+          console.log('No animations found in the model.');
+        } else {
+          console.log('Available Animations:');
+          animations.forEach((animation, index) => {
+            console.log(`Animation ${index + 1}: ${animation.name}`);
+          });
+        }
+      });
+
+      // Automatically enter AR mode
       modelViewer.addEventListener('model-visibility', () => {
-        // Automatically enter AR mode
         if (modelViewer.canActivateAR) {
           modelViewer.activateAR();
         } else {
           console.error('AR activation is not supported or permitted in the current environment.');
         }
       });
-        // Show UI buttons when clicking AR view in option 4
-        $("#model-viewer").on("click", function() {
-            $("#ar-buttons").fadeIn();
-          });
 
-        // Toggle Animation Switch
-        $('#toggle-animation').change(function() {
-          const modelViewer = document.querySelector("#model-viewer");
-          if (this.checked) {
-            modelViewer.animationName = 'CubeAction'; // Start a specific animation
-          } else {
-            modelViewer.animationName = ''; // Stops the animation
-          }
-        });
+      // Trigger AR button click and show the AR UI
+      $("#model-viewer").on("click", function() {
+        $("#ar-buttons").fadeIn();
+      });
+
+      // Toggle Animation
+      $('#toggle-animation').change(function() {
+        const modelViewer = document.querySelector("#model-viewer");
+        if (this.checked) {
+          startAnimation();
+        } else {
+          stopAnimation();
+        }
+      });
+
+      // Function to start animation
+      function startAnimation() {
+        const modelViewer = document.querySelector("#model-viewer");
+        // Assuming 'CubeAction' is the animation name, replace it with the actual name
+        modelViewer.animationName = 'CubeAction';  // Replace 'CubeAction' after finding out the correct name
+      }
+
+      // Function to stop animation
+      function stopAnimation() {
+        const modelViewer = document.querySelector("#model-viewer");
+        modelViewer.animationName = ''; // Stops the animation
+      }
     </script>
-    
+
     <style>
       /* Style for AR overlay buttons */
       .ar-buttons {
