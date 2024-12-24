@@ -52,6 +52,17 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <script>
+
+      const modelViewer = document.querySelector('#model-viewer');
+
+      modelViewer.addEventListener('model-visibility', () => {
+        // Automatically enter AR mode
+        if (modelViewer.canActivateAR) {
+          modelViewer.activateAR();
+        } else {
+          console.error('AR activation is not supported or permitted in the current environment.');
+        }
+      });
         // Show UI buttons when clicking AR view in option 4
         $("#model-viewer").on("click", function() {
             $("#ar-buttons").fadeIn();
@@ -65,13 +76,6 @@
           } else {
             modelViewer.animationName = ''; // Stops the animation
           }
-        });
-
-        // Change Color Button
-        $('#change-color').click(function() {
-          const modelViewer = document.querySelector("#model-viewer");
-          const material = modelViewer.model.materials[0];
-          material.pbrMetallicRoughness.setBaseColorFactor([Math.random(), Math.random(), Math.random(), 1]);
         });
     </script>
     
