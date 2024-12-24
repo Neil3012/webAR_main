@@ -35,7 +35,7 @@
         
         // Ensure the model is fully loaded
         const model = modelViewer.model;
-
+        console.log(model.animationName);
         // Check if the model has animations
         if (model && model.animations && model.animations.length > 0) {
           console.log('Available Animations:');
@@ -74,7 +74,7 @@
       // Function to start animation
       function startAnimation() {
         const modelViewer = document.querySelector("#model-viewer");
-        const animationName = 'Cylinder003|Take 001';  // Replace with the correct animation name after identifying it
+        const animationName = 'Take 001';  // Replace with the correct animation name after identifying it
 
         modelViewer.animationName = animationName;  // Start the animation
       }
