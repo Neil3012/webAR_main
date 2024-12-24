@@ -29,20 +29,21 @@
     <script>
       const modelViewer = document.querySelector('model-viewer');
 
-      // Event listener for when the model is fully loaded
+      // Ensure model is loaded before accessing animations
       modelViewer.addEventListener('load', () => {
         console.log('Model Loaded');
-
-        // Check for available animations
-        const animations = modelViewer.querySelector('model-viewer').model.animations;
         
-        if (animations.length === 0) {
-          console.log('No animations found in the model.');
-        } else {
+        // Ensure the model is fully loaded
+        const model = modelViewer.model;
+
+        // Check if the model has animations
+        if (model && model.animations && model.animations.length > 0) {
           console.log('Available Animations:');
-          animations.forEach((animation, index) => {
+          model.animations.forEach((animation, index) => {
             console.log(`Animation ${index + 1}: ${animation.name}`);
           });
+        } else {
+          console.log('No animations found in the model.');
         }
       });
 
@@ -73,14 +74,15 @@
       // Function to start animation
       function startAnimation() {
         const modelViewer = document.querySelector("#model-viewer");
-        // Assuming 'CubeAction' is the animation name, replace it with the actual name
-        modelViewer.animationName = 'CubeAction';  // Replace 'CubeAction' after finding out the correct name
+        const animationName = 'CubeAction';  // Replace with the correct animation name after identifying it
+
+        modelViewer.animationName = animationName;  // Start the animation
       }
 
       // Function to stop animation
       function stopAnimation() {
         const modelViewer = document.querySelector("#model-viewer");
-        modelViewer.animationName = ''; // Stops the animation
+        modelViewer.animationName = '';  // Stop the animation
       }
     </script>
 
