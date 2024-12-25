@@ -27,6 +27,13 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <script>
+
+      modelViewer.addEventListener('ar-status', (event) => {
+        if (event.detail.status === 'failed') {
+          alert('AR mode is not supported on this device.');
+        }
+      });
+      
       const modelViewer = document.querySelector('model-viewer');
 
       modelViewer.addEventListener('load', () => {
@@ -43,7 +50,7 @@
         $('#toggle-animation').change(function() {
           const modelViewer = document.querySelector("model-viewer");
           if (this.checked) {
-            modelViewer.animationName = 'CubeAction'; // Start a specific animation
+            modelViewer.animationName = 'Cylinder003|Take 001|BaseLayer'; // Start a specific animation
           } else {
             modelViewer.animationName = ''; // Stops the animation
           }
